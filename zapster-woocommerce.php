@@ -247,6 +247,23 @@ class WC_Zapster extends WC_Payment_Gateway {
 							echo "<p class='woocommerce-notice woocommerce-notice--error woocommerce-thankyou-order-failed-actions'><a href='" . esc_url( $order->get_checkout_payment_url() ) . "' class='button pay'>Pay</a></p>";
 
 						} else {
+							
+							// Add meta and notes
+							$order->add_meta_data('CallbackUrl', $zapster_transaction->callbackUrl, true);
+							$order->add_meta_data('SourceWallet', $zapster_transaction->source, true);
+							$order->add_meta_data('ZapsterTransactionDecrypted', $decrypted_transaction, true);
+							$order->add_meta_data('ZapsterTransactionEncrypted', $returned_transaction, true);
+							$order->add_meta_data('Transaction Original Order', $zapster_transaction->originalAmount, true);
+							$order->add_meta_data('Order Total', $order_total, true);							
+							$order->add_order_note('XRP Payment Failed Confirmation');	
+							
+							// Update the status
+							$order->update_status('failed', 'Zapster payment notification expired');
+							
+							// Save changes
+							$order->save();
+							$order->save_meta_data();
+							
 							echo '<br><h2>Information</h2>' . PHP_EOL;
 							echo "<div class='woocommerce-error'>". sprintf(__( 'The Zapster payment plugin was called to process a payment but could not verify the transaction details for order %s. Cannot continue!'), $order_id)."</div>";
 						}
