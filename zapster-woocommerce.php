@@ -226,7 +226,7 @@ class WC_Zapster extends WC_Payment_Gateway {
 					$zapster_pinCode = $order->get_meta('ZapsterPinCode', true);
 
 					// The must be confirmed, transaction id needs to match, along with the pin, account, and amount
-					if (strtoupper($zapster_transaction->status) != 'CONFIRMED' || strtoupper($zapster_transaction->id) != strtoupper($transaction_id) || $zapster_transaction->pinCode != $zapster_pinCode || strtoupper($zapster_transaction->account) != strtoupper($this->account) || $zapster_transaction->originalAmount != $order_total)
+					if (strtoupper($zapster_transaction->status) != 'CONFIRMED' || strtoupper($zapster_transaction->id) != strtoupper($transaction_id) || $zapster_transaction->pinCode != $zapster_pinCode || $zapster_transaction->originalAmount != $order_total)
 					{				
 						if (strtoupper($zapster_transaction->status) == 'EXPIRED')		
 						{
@@ -256,9 +256,6 @@ class WC_Zapster extends WC_Payment_Gateway {
 							$order->add_meta_data('Transaction Original Order', $zapster_transaction->originalAmount, true);
 							$order->add_meta_data('Order Total', $order_total, true);							
 							$order->add_order_note('XRP Payment Failed Confirmation');	
-							
-							// Update the status
-							$order->update_status('failed', 'Zapster payment notification expired');
 							
 							// Save changes
 							$order->save();
