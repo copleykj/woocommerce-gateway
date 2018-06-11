@@ -48,4 +48,7 @@ Upload the Zapster plugin to your blog, Activate it, then enter your [Zapster Ac
 *Release Date - 20 January 2018*
 Initial release
 
+<a amount="2" size="275" to="zapstergateway" network="twitter" href="https://www.xrptipbot.com" target="_blank"></a>
+<script async src="https://www.xrptipbot.com/static/donate/tipper.js" charset="utf-8"></script>
+
 XRP donations: rhEN3yNym2mk5QFJnnHkqvUus7SD3KAyFD
